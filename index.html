@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratorio de habilidades sociales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F2;--panel:#FFFFFF;--ink:#16231B;--muted:#4C5E53;--line:#CFDAD1;--soft:#E4EDE5;
+  --accent:#1D5B40;--btn:#12402C;--btnink:#FFFFFF;--gold:#C9A227;--hero:#12402C;--heroink:#F6F8F4;
+  --good:#1D6B43;--mid:#7A5C00;--bad:#9A3524;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0E1913;--panel:#16251C;--ink:#E8EFE9;--muted:#A9B9AE;--line:#2A4034;--soft:#1D3226;--accent:#8CCBA6;--btn:#2E7A55;--good:#7FD0A0;--mid:#E3C45C;--bad:#F09A86}
+}
+:root[data-theme="dark"]{--bg:#0E1913;--panel:#16251C;--ink:#E8EFE9;--muted:#A9B9AE;--line:#2A4034;--soft:#1D3226;--accent:#8CCBA6;--btn:#2E7A55;--good:#7FD0A0;--mid:#E3C45C;--bad:#F09A86}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito Sans",system-ui,Arial,sans-serif;font-size:19px;line-height:1.5}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:700;line-height:1.15;margin:0}
+p{margin:0}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px 56px}
+.hero{background:var(--hero);color:var(--heroink);border-bottom:6px solid var(--gold)}
+.hero .wrap{padding-top:28px;padding-bottom:22px}
+.hero h1{font-size:clamp(28px,5vw,42px)}
+.hero p{color:#D5E3D8;margin-top:6px;font-size:18px}
+.steps{display:flex;gap:8px;margin:22px 0 28px;list-style:none;padding:0;flex-wrap:wrap}
+.steps li{flex:1 1 150px;border-top:5px solid var(--line);padding-top:8px;font-size:16px;color:var(--muted);font-weight:600}
+.steps li.on{border-color:var(--gold);color:var(--ink)}
+.steps li.done{border-color:var(--accent);color:var(--accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px}
+.panel+.panel{margin-top:20px}
+h2{font-size:clamp(26px,4vw,34px)}
+.lead{color:var(--muted);margin-top:10px}
+.scene{font-size:22px;line-height:1.5;margin:18px 0 22px;border-left:6px solid var(--gold);padding-left:18px}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:16px 18px;font-size:19px;line-height:1.45;min-height:56px}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.opt[aria-disabled="true"]{cursor:default}
+.opt.chosen{border-color:var(--accent);background:var(--soft)}
+.tag{display:block;font-weight:700;font-size:16px;margin-bottom:4px}
+.tag.p2{color:var(--good)}.tag.p1{color:var(--mid)}.tag.p0{color:var(--bad)}
+.why{display:block;color:var(--muted);font-size:17px;margin-top:6px}
+.fb{margin-top:20px;background:var(--soft);border-radius:12px;padding:16px 18px}
+.fb strong{font-family:Fraunces,Georgia,serif}
+.btn{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;background:var(--btn);color:var(--btnink);border-radius:12px;padding:14px 26px;font-weight:700;font-size:19px;min-height:52px}
+.btn.alt{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.bar{margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meta{color:var(--muted);font-size:17px}
+label.field{display:block;font-weight:700;margin-top:20px}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:8px}
+textarea{min-height:190px;resize:vertical;line-height:1.5}
+fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:18px 0 6px}
+legend{font-size:20px;padding:0 0 10px;float:left;width:100%}
+.scale{clear:both;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.scale label{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid var(--line);border-radius:10px;padding:10px 4px;cursor:pointer;font-weight:700;text-align:center;font-size:16px;min-height:64px;justify-content:center}
+.scale input{position:absolute;opacity:0;width:1px;height:1px}
+.scale input:checked+span{color:var(--accent)}
+.scale label:has(input:checked){border-color:var(--accent);background:var(--soft)}
+.scale label:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.scale small{font-weight:600;color:var(--muted);font-size:13px;line-height:1.2}
+.case{background:var(--soft);border-radius:12px;padding:18px 20px;font-size:21px;margin-top:16px}
+.checks{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.checks label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.checks input{width:24px;height:24px;margin-top:3px;accent-color:var(--accent)}
+.res-row{padding:20px 0;border-top:1px solid var(--line)}
+.res-row:first-of-type{border-top:0}
+.res-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.res-head h3{font-size:25px}
+.chip{font-weight:700;font-size:16px;border:2px solid var(--accent);color:var(--accent);border-radius:99px;padding:2px 12px}
+.meter{display:grid;grid-template-columns:150px 1fr 56px;gap:10px;align-items:center;margin-top:10px;font-size:16px}
+.track{height:16px;background:var(--soft);border-radius:99px;overflow:hidden}
+.fill{height:100%;border-radius:99px}
+.fill.a{background:var(--accent)}.fill.b{background:var(--gold)}
+.note{color:var(--muted);margin-top:10px;font-size:17px}
+.preview{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;margin-top:16px;display:block}
+.sr{position:absolute;left:-9999px}
+@media (max-width:560px){body{font-size:18px}.panel{padding:20px}.meter{grid-template-columns:110px 1fr 48px}.scale small{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Laboratorio de habilidades sociales</h1>
+  <p>Piensa, siente y actúa: tres estaciones para conocer cómo te relacionas con los demás.</p>
+</div></header>
+<main class="wrap" id="app" aria-live="polite"></main>
+
+<script>
+"use strict";
+/* ---------- Datos ---------- */
+const CLS={
+  cog:{name:"Cognitivas",verb:"pensar",tip:"Antes de reaccionar, haz una pausa y piensa en dos alternativas y sus consecuencias. Observa señales (gestos, silencios, cambios de ánimo) además de las palabras."},
+  emo:{name:"Emocionales",verb:"sentir",tip:"Ponle nombre a lo que sientes antes de actuar. Practica decir «me siento…» sin culpar a nadie y busca a una persona de confianza para platicarlo."},
+  ins:{name:"Instrumentales",verb:"actuar",tip:"Ensaya frases concretas y cuida tu tono de voz, postura y mirada. Practica primero con alguien de confianza y después en situaciones reales."}
+};
+const SC=[
+{k:"cog",skill:"identificar estados de ánimo ajenos y separar una conducta de su posible causa",text:"Una amiga cercana lleva semanas contestando de forma brusca y hoy te hizo un comentario sarcástico delante del equipo. Corre el rumor de que en su casa atraviesan un momento difícil, pero ella no ha dicho nada. Te dolió el comentario. ¿Qué haces?",opts:[
+ {t:"Separo lo que me hizo de lo que pudo causarlo: la busco a solas, le cuento cómo me afectó su comentario sin acusarla y le pregunto cómo está.",p:2,w:"Reconoces su posible estado de ánimo sin justificar la conducta, y cuidas la relación y tu propia necesidad."},
+ {t:"Dejo pasar sus comentarios porque sé que está mal y no quiero agregarle más problemas.",p:1,w:"Es empático, pero absorbes el malestar y no le das la oportunidad de saber cómo te afecta."},
+ {t:"Le digo frente al equipo: «No me hables así», para que vea que no lo voy a permitir.",p:1,w:"Pones un límite, pero lo haces en público y sin considerar lo que podría estar viviendo."},
+ {t:"Les pregunto a otras compañeras qué le pasa para entender su situación antes de hablar con ella.",p:0,w:"Buscas información de terceros en vez de hablar con ella; puede convertirse en chisme y exponerla."}]},
+{k:"emo",skill:"reconocer y manejar emociones mezcladas (alegría y frustración)",text:"Tu mejor amigo y tú se prepararon durante meses para una convocatoria con un solo lugar. Lo eligieron a él. Sientes alegría por él, pero también frustración y un poco de envidia. Hoy te espera para celebrar. ¿Qué haces?",opts:[
+ {t:"Acepto que siento ambas cosas, lo felicito con sinceridad y, más tarde, me doy tiempo para procesar mi frustración, quizá hablándola con alguien de confianza.",p:2,w:"Reconoces emociones contradictorias sin negarlas ni descargarlas sobre él."},
+ {t:"Lo felicito con mucho entusiasmo y finjo que no me afecta nada, para no arruinar su momento.",p:1,w:"Cuidas su alegría, pero reprimes lo que sientes y la emoción se queda sin atender."},
+ {t:"Le digo que me alegro, pero me alejo unos días sin darle explicaciones.",p:1,w:"Te das espacio, pero el silencio sin explicación puede lastimar la amistad."},
+ {t:"Le digo que se lo dieron por tener mejores contactos, no por merecerlo.",p:0,w:"Conviertes la frustración en un ataque que daña la relación."}]},
+{k:"ins",skill:"negociar en conflictos y expresarse de forma asertiva",text:"Es la tercera vez que un compañero no entrega su parte del proyecto. En el grupo ya se quejan a sus espaldas y el maestro revisará calificaciones el viernes. A ti te tocó coordinar al equipo. ¿Qué haces?",opts:[
+ {t:"Hablo con él en privado: describo lo que pasó sin etiquetarlo («falta tu parte y afecta al equipo»), escucho sus razones y acordamos una fecha concreta.",p:2,w:"Eres directo y respetuoso: describes la conducta, escuchas y acuerdas una acción."},
+ {t:"Propongo que todos le hablemos juntos para que vea que es un problema de todos.",p:1,w:"Muestra el impacto en el equipo, pero puede hacerlo sentir acorralado."},
+ {t:"Hago su parte para que el equipo no baje de calificación y después se lo comento.",p:1,w:"Resuelves la urgencia, pero refuerzas que no cumplir no tiene consecuencias."},
+ {t:"Aviso al maestro desde ahora, sin hablar antes con él, para cubrirnos.",p:0,w:"Saltas el diálogo directo y puedes dañar la confianza del grupo."}]},
+{k:"cog",skill:"resolver problemas con pensamiento alternativo y consecuencial",text:"Un amigo te confiesa que está pensando en dejar la prepa porque se siente abrumado, y te pide que no se lo digas a nadie. Se nota muy desanimado. Si guardas el secreto, no recibirá ayuda; si lo cuentas, podría dejar de confiar en ti. ¿Qué haces?",opts:[
+ {t:"Considero las consecuencias de cada camino y le propongo que hable con orientación o un adulto de confianza; le ofrezco acompañarlo para que no lo viva solo.",p:2,w:"Buscas una alternativa que cuida tanto su confianza como su bienestar."},
+ {t:"Le prometo guardar el secreto y trato de convencerlo yo solo de que no deje la escuela.",p:1,w:"Respetas su confianza, pero cargas con algo que quizá necesita apoyo profesional."},
+ {t:"Aviso al orientador sin decirle a mi amigo, porque es lo mejor para él.",p:1,w:"Buscas ayuda, pero rompes su confianza sin darle voz en la decisión."},
+ {t:"Le digo que es su decisión y que no me meto.",p:0,w:"Evitas el problema en un momento en que tu apoyo puede ser importante."}]},
+{k:"emo",skill:"regular la ira antes de expresarla",text:"Una persona que aprecias te reclamó de forma injusta, delante de todo el grupo de chat. Sientes enojo y ya escribiste una respuesta contundente que podrías enviar en este momento. ¿Qué haces?",opts:[
+ {t:"No la envío todavía: espero a calmarme, identifico qué me dolió y después le escribo en privado para explicarle cómo me sentí y qué necesito.",p:2,w:"Regulas la emoción, identificas su origen y la expresas de forma útil."},
+ {t:"La envío, pero suavizada, para que se entienda que me molestó.",p:1,w:"Moderas el mensaje, pero lo envías aún alterado y en el mismo espacio público."},
+ {t:"No respondo y dejo de hablarle una semana para que entienda lo que hizo.",p:1,w:"Evitas escalar, pero el silencio castigador no comunica lo que sientes."},
+ {t:"La envío tal cual: si me atacó delante de todos, merece lo mismo.",p:0,w:"La ira dirige tu respuesta y probablemente escale el conflicto."}]},
+{k:"ins",skill:"rechazar presiones sin agredir (conducta verbal y no verbal)",text:"Te invitan a una salida con tu grupo. Saben que no quieres consumir alcohol. Un amigo cercano insiste delante de los demás: «No seas aburrido, solo una». Todos esperan tu respuesta. ¿Qué haces?",opts:[
+ {t:"Con tono tranquilo y mirándolo a los ojos digo: «Gracias, paso; yo estoy bien así». Propongo otra actividad y, si siguen presionando, me retiro.",p:2,w:"Rechazas con claridad y sin agredir, cuidas tu tono y tu postura, y ofreces una alternativa."},
+ {t:"Acepto un poco para que dejen de insistir y no quedar mal.",p:1,w:"Evitas el conflicto inmediato, pero cedes en algo que habías decidido."},
+ {t:"Invento una excusa y me voy rápido sin dar explicación.",p:1,w:"Evitas la presión, pero no defiendes tu decisión y quizá regrese en otra ocasión."},
+ {t:"Respondo con sarcasmo: «Prefiero ser aburrido que parecerme a ustedes».",p:0,w:"Te defiendes agrediendo y es probable que el conflicto escale."}]},
+{k:"cog",skill:"autorregulación y distinguir conductas socialmente deseables",text:"Durante un examen ves que tu amigo copia. El maestro sospecha del grupo y amenaza con anular el examen a todos si nadie dice quién fue. Tienes pocos minutos para decidir. ¿Qué haces?",opts:[
+ {t:"Hablo antes con mi amigo: le digo lo que vi y que no quiero que paguemos todos; le doy oportunidad de aclararlo con el maestro y, si no lo hace, valoro avisar yo.",p:2,w:"Pesas honestidad, lealtad y consecuencias, y buscas una solución que dé una oportunidad antes de actuar."},
+ {t:"Lo digo en el momento, delante del grupo, para evitar que anulen el examen.",p:1,w:"Priorizas la honestidad y al grupo, pero sin hablar antes con él y exponiéndolo."},
+ {t:"No digo nada: no es mi problema y no quiero que me señalen.",p:1,w:"Evitas el conflicto, pero dejas que todo el grupo cargue con la consecuencia."},
+ {t:"Le digo a mi amigo que si salgo perjudicado lo voy a acusar.",p:0,w:"Usas una amenaza en lugar de dialogar y empeoras la relación."}]},
+{k:"emo",skill:"manifestar la vergüenza y el enojo de forma respetuosa",text:"Tu mamá te corrige en voz alta frente a tus amigos por llegar tarde y alguien se ríe. Sientes vergüenza y enojo. Sabes que ella tiene razón en que llegaste tarde, pero no en cómo lo hizo. ¿Qué haces?",opts:[
+ {t:"En el momento respiro y respondo breve: «Hablamos en casa». Ya en casa, con calma, le explico que me avergonzó y le pido que me hable en privado.",p:2,w:"Contienes la reacción, nombras la emoción y la comunicas sin atacar."},
+ {t:"Respondo molesto en el momento para defenderme.",p:1,w:"Expresas lo que sientes de inmediato, pero la reacción puede escalar y aumentar la vergüenza."},
+ {t:"Aguanto y no digo nada ni en el momento ni después.",p:1,w:"Evitas la discusión, pero la emoción se queda sin expresarse y puede repetirse."},
+ {t:"Me voy sin hablar y paso la noche sin dirigirle la palabra.",p:0,w:"La emoción se expresa como castigo, no como mensaje claro."}]},
+{k:"ins",skill:"conducta verbal y no verbal para pedir algo con firmeza y respeto",text:"Crees que una calificación tuya fue injusta. Sabes que el maestro es estricto y que otros compañeros ya lo intentaron sin éxito. Tienes el examen y los criterios de evaluación. ¿Cómo lo abordas?",opts:[
+ {t:"Preparo mis argumentos con evidencia, pido hablar con él al final de la clase en privado, uso un tono respetuoso y firme y pregunto qué criterio aplicó.",p:2,w:"Combinas preparación, momento adecuado y comunicación verbal y no verbal firme y respetuosa."},
+ {t:"Voy con dos compañeros para que mi petición tenga más fuerza.",p:1,w:"Aporta respaldo, pero puede sentirse como presión y no como diálogo."},
+ {t:"Le escribo un mensaje largo explicando mi enojo para que quede por escrito.",p:1,w:"Dejas constancia, pero el enojo en el mensaje puede cerrar el diálogo."},
+ {t:"No digo nada porque sé que no cambiará y solo me desahogo con amigos.",p:0,w:"Evitas intentarlo y la inconformidad se queda sin salida."}]}
+];
+const ITEMS=[
+ {k:"cog",t:"Reconozco lo que necesito y quiero antes de responder en una situación difícil."},
+ {k:"emo",t:"Puedo ponerle nombre a lo que siento (enojo, tristeza, vergüenza, alegría)."},
+ {k:"ins",t:"Inicio conversaciones con personas que no conozco."},
+ {k:"cog",t:"Noto cuando alguien cercano está de mal humor aunque no lo diga."},
+ {k:"emo",t:"Expreso lo que siento sin lastimar a otras personas."},
+ {k:"ins",t:"Digo que no o rechazo provocaciones sin agredir."},
+ {k:"cog",t:"Antes de actuar pienso qué podría pasar si elijo cada opción."},
+ {k:"emo",t:"Me recupero con relativa rapidez después de una situación que me molestó."},
+ {k:"ins",t:"Mi tono de voz, mi postura y mi mirada acompañan lo que quiero decir."}
+];
+const SCALE=["Casi nunca","Pocas veces","A veces","Muchas veces","Casi siempre"];
+const MIN_WORDS=30;
+
+/* ---------- Estado y utilidades ---------- */
+const S={screen:"intro",name:"",i:0,order:[],answers:[],likert:{},text:"",checks:[false,false,false],commit:"",incl:true,results:null};
+let DL=null;
+if(window.claude&&claude.use){claude.use("downloads").then(d=>{DL=d}).catch(()=>{DL=null})}
+
+const app=document.getElementById("app");
+function el(tag,props,...kids){const e=document.createElement(tag);for(const[k,v]of Object.entries(props||{})){if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(k,v===true?"":v)}kids.flat().forEach(c=>{if(c==null)return;e.append(c&&c.nodeType?c:document.createTextNode(c))});return e}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function wordCount(s){return (s.trim().match(/\S+/g)||[]).length}
+function go(screen){S.screen=screen;draw();window.scrollTo(0,0);const h=app.querySelector("h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+
+function stepper(active){
+  const names=["Situaciones","Autopercepción","Reto de redacción","Resultados"];
+  return el("ol",{class:"steps","aria-label":"Estaciones"},names.map((n,i)=>el("li",{class:i===active?"on":i<active?"done":"","aria-current":i===active?"step":null},(i+1)+". "+n)));
+}
+
+/* ---------- Pantallas ---------- */
+function draw(){
+  app.replaceChildren();
+  ({intro:drawIntro,s1:drawS1,s2:drawS2,s3:drawS3,res:drawRes})[S.screen]();
+}
+
+function drawIntro(){
+  const name=el("input",{type:"text",id:"nm",maxlength:"60",autocomplete:"off",value:S.name,placeholder:"Escribe tu nombre"});
+  name.addEventListener("input",()=>{S.name=name.value});
+  app.append(el("section",{class:"panel",style:"margin-top:28px"},
+    el("h2",{},"Bienvenida o bienvenido al laboratorio"),
+    el("p",{class:"lead"},"Recorrerás tres estaciones, en unos 15 minutos: decidir en situaciones reales, valorarte a ti mismo y redactar cómo resolverías un caso. Al final obtendrás un perfil y una imagen con tus resultados."),
+    el("ul",{style:"margin:18px 0 0;padding-left:22px"},
+      el("li",{},el("strong",{},"Estación 1: "),"9 situaciones complejas, sin respuesta obvia: varias opciones parecen razonables y eliges la que mejor muestra la habilidad."),
+      el("li",{},el("strong",{},"Estación 2: "),"9 afirmaciones sobre ti, del 1 al 5."),
+      el("li",{},el("strong",{},"Estación 3: "),"un caso para redactar tu respuesta.")),
+    el("p",{class:"note"},"Es una actividad formativa para reflexionar. No es una prueba psicológica ni da diagnósticos. Tus respuestas se quedan en este dispositivo."),
+    el("label",{class:"field",for:"nm"},"Tu nombre (aparecerá en tu captura)"),name,
+    el("div",{class:"bar"},el("button",{class:"btn",onclick:()=>{
+      S.name=name.value.trim();S.i=0;S.answers=[];S.likert={};S.text="";S.checks=[false,false,false];S.commit="";S.results=null;
+      S.order=SC.map(s=>shuffle(s.opts.map((_,j)=>j)));go("s1");
+    }},"Comenzar"))
+  ));
+}
+
+function drawS1(){
+  const s=SC[S.i],ans=S.answers[S.i],locked=!!ans;
+  app.append(stepper(0));
+  const box=el("div",{class:"opts",role:"group","aria-label":"Opciones de respuesta"});
+  S.order[S.i].forEach(j=>{
+    const o=s.opts[j];
+    const chosen=locked&&ans.j===j;
+    const b=el("button",{class:"opt"+(chosen?" chosen":""),type:"button","aria-disabled":locked?"true":null,"aria-pressed":locked?String(chosen):null,onclick:()=>{if(S.answers[S.i])return;S.answers[S.i]={j,p:o.p};draw();const f=document.getElementById("fb");if(f)f.scrollIntoView({block:"nearest",behavior:"smooth"})}});
+    if(locked){
+      const lab=o.p===2?["p2","✓ Mejor opción"]:o.p===1?["p1","◐ Funciona a medias"]:["p0","✕ Poco útil"];
+      b.append(el("span",{class:"tag "+lab[0]},lab[1]+(chosen?" · tu elección":"")),o.t,el("span",{class:"why"},o.w));
+    }else b.append(o.t);
+    box.append(b);
+  });
+  const panel=el("section",{class:"panel"},
+    el("p",{class:"meta"},"Situación "+(S.i+1)+" de "+SC.length),
+    el("h2",{},"Estación 1 · ¿Qué harías?"),
+    el("p",{class:"scene"},s.text),box);
+  if(locked){
+    const pts=ans.p;
+    panel.append(el("div",{class:"fb",id:"fb"},
+      el("strong",{},pts===2?"Excelente decisión. ":pts===1?"Vas en buen camino. ":"Vale la pena revisarlo. "),
+      "Habilidad en juego: "+CLS[s.k].name.toLowerCase()+" ("+CLS[s.k].verb+"), "+s.skill+"."),
+      el("div",{class:"bar"},el("button",{class:"btn",onclick:()=>{if(S.i<SC.length-1){S.i++;go("s1")}else go("s2")}},S.i<SC.length-1?"Siguiente situación":"Ir a la estación 2")));
+  }
+  app.append(panel);
+}
+
+function drawS2(){
+  app.append(stepper(1));
+  const btn=el("button",{class:"btn",type:"button",disabled:true,onclick:()=>go("s3")},"Ir a la estación 3");
+  const count=el("span",{class:"meta"});
+  const upd=()=>{const n=Object.keys(S.likert).length;count.textContent=n+" de "+ITEMS.length+" respondidas";btn.disabled=n<ITEMS.length};
+  const panel=el("section",{class:"panel"},
+    el("h2",{},"Estación 2 · ¿Cómo me percibo?"),
+    el("p",{class:"lead"},"Elige qué tan frecuente es para ti cada afirmación. No hay respuestas buenas o malas: responde con sinceridad."));
+  ITEMS.forEach((it,i)=>{
+    const fs=el("fieldset",{},el("legend",{},(i+1)+". "+it.t));
+    const sc=el("div",{class:"scale"});
+    SCALE.forEach((lab,v)=>{
+      const inp=el("input",{type:"radio",name:"q"+i,value:String(v+1),checked:S.likert[i]===v+1,onchange:()=>{S.likert[i]=v+1;upd()}});
+      sc.append(el("label",{},inp,el("span",{},String(v+1)),el("small",{},lab)));
+    });
+    fs.append(sc);panel.append(fs);
+  });
+  panel.append(el("p",{class:"meta",style:"margin-top:8px"},"1 = casi nunca · 5 = casi siempre"),el("div",{class:"bar"},btn,count));
+  app.append(panel);upd();
+}
+
+function drawS3(){
+  app.append(stepper(2));
+  const ta=el("textarea",{id:"tx","aria-describedby":"wc",placeholder:"Escribe aquí tu respuesta…"});ta.value=S.text;
+  const wc=el("span",{class:"meta",id:"wc"});
+  const btn=el("button",{class:"btn",type:"button",disabled:true,onclick:()=>{S.results=compute();go("res")}},"Ver mis resultados");
+  const upd=()=>{const n=wordCount(ta.value);wc.textContent=n+" palabras · mínimo "+MIN_WORDS;btn.disabled=n<MIN_WORDS};
+  ta.addEventListener("input",()=>{S.text=ta.value;upd()});
+  const checks=el("div",{class:"checks"},[
+    "Consideré cómo podría sentirse ella.",
+    "Pensé en una consecuencia de lo que haría.",
+    "Escribí algo concreto que diría o haría, incluyendo tono de voz o postura."
+  ].map((t,i)=>el("label",{},el("input",{type:"checkbox",checked:S.checks[i],onchange:e=>{S.checks[i]=e.target.checked}}),t)));
+  app.append(el("section",{class:"panel"},
+    el("h2",{},"Estación 3 · Reto de redacción"),
+    el("p",{class:"case"},"Lucía, de tu grupo, dejó de participar desde que algunos se burlaron de ella en una exposición. Hoy te toca trabajar con ella en equipo y notas que casi no habla ni te mira."),
+    el("label",{class:"field",for:"tx"},"Redacta qué harías, en 4 a 6 líneas: qué pensarías, qué sentirías y cómo lo manejarías, y qué dirías o harías exactamente."),
+    ta,el("p",{style:"margin-top:8px"},wc),
+    el("p",{class:"field",style:"font-weight:700;margin-top:22px"},"Revisa tu texto (autoevaluación)"),checks,
+    el("div",{class:"bar"},btn)));
+  upd();
+}
+
+/* ---------- Resultados ---------- */
+function compute(){
+  const r={};
+  for(const c of ["cog","emo","ins"]){
+    let pts=0,n=0;SC.forEach((s,i)=>{if(s.k===c){pts+=S.answers[i].p;n++}});
+    const sit=Math.round(pts/(n*2)*100);
+    let sum=0,m=0;ITEMS.forEach((it,i)=>{if(it.k===c){sum+=S.likert[i];m++}});
+    const self=Math.round((sum-m)/(m*4)*100);
+    const tot=Math.round((sit+self)/2);
+    r[c]={sit,self,tot,lvl:tot>=75?"Fortaleza":tot>=50?"En desarrollo":"Por fortalecer"};
+  }
+  return r;
+}
+function gapMsg(x){
+  if(x.self-x.sit>=25)return "Te percibes más hábil de lo que mostraron tus decisiones: revisa las situaciones donde elegiste opciones intermedias.";
+  if(x.sit-x.self>=25)return "Tus decisiones fueron mejores de lo que crees: confía más en lo que ya sabes hacer.";
+  return "";
+}
+function meter(label,val,cls){
+  return el("div",{class:"meter"},el("span",{},label),el("div",{class:"track",role:"img","aria-label":label+": "+val+"%"},el("div",{class:"fill "+cls,style:"width:"+val+"%"})),el("strong",{},val+"%"));
+}
+function extremes(r){
+  const ks=["cog","emo","ins"].sort((a,b)=>r[b].tot-r[a].tot);
+  return {top:ks[0],low:ks[2]};
+}
+
+function drawRes(){
+  const r=S.results,{top,low}=extremes(r);
+  app.append(stepper(3));
+  const status=el("p",{class:"note",role:"status"});
+  const prev=el("div");
+  const incl=el("input",{type:"checkbox",checked:S.incl,onchange:e=>{S.incl=e.target.checked;makePreview()}});
+  const commit=el("input",{type:"text",id:"cm",maxlength:"120",value:S.commit,placeholder:"Ejemplo: esta semana saludaré y haré una pregunta a alguien nuevo."});
+  commit.addEventListener("change",()=>{S.commit=commit.value;makePreview()});
+  const btn=el("button",{class:"btn",type:"button",onclick:async()=>{
+    S.commit=commit.value;const cv=await buildCard();
+    if(!DL){status.textContent="Tu dispositivo no permite descargar desde aquí: mantén presionada la imagen para guardarla o toma una captura de pantalla.";return}
+    cv.toBlob(async blob=>{
+      try{await DL.save({filename:"resultados-habilidades-sociales"+(S.name?"-"+S.name.replace(/[^\wÁÉÍÓÚÜÑáéíóúüñ-]+/g,"_"):"")+".png",data:blob});status.textContent="Imagen guardada."}
+      catch(e){status.textContent=(e&&e.code==="declined")?"Guardado cancelado. Puedes intentarlo de nuevo o tomar una captura de pantalla.":"No se pudo guardar. Toma una captura de pantalla de la imagen de abajo."}
+    },"image/png");
+  }},"Descargar mi captura (PNG)");
+  async function makePreview(){
+    const cv=await buildCard();prev.replaceChildren(el("img",{class:"preview",src:cv.toDataURL("image/png"),alt:"Vista previa de tu tarjeta de resultados"}));
+  }
+
+  const panel=el("section",{class:"panel"},
+    el("h2",{},(S.name?S.name+", este":"Este")+" es tu perfil"),
+    el("p",{class:"lead"},"Tu mayor fortaleza hoy: "+CLS[top].name.toLowerCase()+". Tu área para fortalecer: "+CLS[low].name.toLowerCase()+". La barra verde son tus decisiones en las situaciones; la dorada, cómo te percibes."));
+  ["cog","emo","ins"].forEach(c=>{
+    const x=r[c],g=gapMsg(x);
+    panel.append(el("div",{class:"res-row"},
+      el("div",{class:"res-head"},el("h3",{},CLS[c].name+" ("+CLS[c].verb+")"),el("span",{class:"chip"},x.lvl+" · "+x.tot+"%")),
+      meter("Mis decisiones",x.sit,"a"),meter("Mi autopercepción",x.self,"b"),
+      el("p",{class:"note"},CLS[c].tip),g?el("p",{class:"note"},el("strong",{},"Para reflexionar: "),g):null));
+  });
+  app.append(panel);
+  app.append(el("section",{class:"panel"},
+    el("h2",{},"Tu compromiso y tu captura"),
+    el("label",{class:"field",for:"cm"},"Mi compromiso para esta semana (una acción concreta)"),commit,
+    el("div",{class:"checks"},el("label",{},incl,"Incluir mi redacción de la estación 3 en la captura")),
+    el("div",{class:"bar"},btn,el("button",{class:"btn alt",type:"button",onclick:()=>go("intro")},"Volver a empezar")),
+    status,prev));
+  makePreview();
+}
+
+/* ---------- Tarjeta PNG ---------- */
+function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function wrapLines(ctx,text,maxW){const out=[];String(text).split(/\n+/).forEach(par=>{let line="";par.split(/\s+/).filter(Boolean).forEach(w=>{const t=line?line+" "+w:w;if(ctx.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t});if(line)out.push(line)});return out}
+function paint(ctx,W,r){
+  const SER="Fraunces, Georgia, serif",SANS='"Nunito Sans", Arial, sans-serif';
+  const G="#12402C",GOLD="#C9A227",INK="#16231B",MUT="#4C5E53",ACC="#1D5B40",SOFT="#E4EDE5";
+  const {top,low}=extremes(r);
+  ctx.fillStyle="#F3F6F2";ctx.fillRect(0,0,W,4000);
+  ctx.fillStyle=G;ctx.fillRect(0,0,W,230);ctx.fillStyle=GOLD;ctx.fillRect(0,230,W,10);
+  ctx.fillStyle="#F6F8F4";ctx.textBaseline="alphabetic";ctx.font="700 50px "+SER;ctx.fillText("Laboratorio de habilidades sociales",60,100);
+  ctx.font="600 30px "+SANS;ctx.fillStyle="#D5E3D8";
+  const fecha=new Date().toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"});
+  ctx.fillText((S.name||"Estudiante")+" · "+fecha,60,160);
+  ctx.font="400 26px "+SANS;ctx.fillText("Piensa, siente y actúa",60,202);
+  let y=300;
+  ctx.fillStyle=INK;ctx.font="700 38px "+SER;ctx.fillText("Mi perfil",60,y);y+=24;
+  ["cog","emo","ins"].forEach(c=>{
+    const x=r[c];y+=34;
+    ctx.fillStyle=INK;ctx.font="700 32px "+SANS;ctx.fillText(CLS[c].name+" ("+CLS[c].verb+")",60,y+24);
+    const chip=x.lvl+" · "+x.tot+"%";ctx.font="700 26px "+SANS;const cw=ctx.measureText(chip).width+36;
+    ctx.strokeStyle=ACC;ctx.lineWidth=3;rr(ctx,W-60-cw,y-2,cw,42,21);ctx.stroke();ctx.fillStyle=ACC;ctx.fillText(chip,W-60-cw+18,y+28);
+    y+=62;
+    [["Mis decisiones",x.sit,ACC],["Mi autopercepción",x.self,GOLD]].forEach(([lab,v,col])=>{
+      ctx.fillStyle=MUT;ctx.font="600 24px "+SANS;ctx.fillText(lab,60,y+18);
+      ctx.fillStyle=SOFT;rr(ctx,330,y,560,22,11);ctx.fill();
+      if(v>0){ctx.fillStyle=col;rr(ctx,330,y,Math.max(22,560*v/100),22,11);ctx.fill()}
+      ctx.fillStyle=INK;ctx.font="700 24px "+SANS;ctx.fillText(v+"%",910,y+19);y+=42;
+    });
+    y+=14;ctx.strokeStyle="#CFDAD1";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,y);ctx.lineTo(W-60,y);ctx.stroke();
+  });
+  y+=50;
+  ctx.fillStyle=INK;ctx.font="600 28px "+SANS;
+  [["Mi mayor fortaleza: ",CLS[top].name],["Mi área para fortalecer: ",CLS[low].name]].forEach(([a,b])=>{
+    ctx.font="600 28px "+SANS;ctx.fillStyle=MUT;ctx.fillText(a,60,y);const aw=ctx.measureText(a).width;ctx.font="700 30px "+SANS;ctx.fillStyle=INK;ctx.fillText(b,60+aw,y);y+=44;
+  });
+  y+=16;
+  const box=(title,text,maxLines,minH)=>{
+    ctx.font="400 27px "+SANS;let lines=wrapLines(ctx,text,W-120-56);
+    if(lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].replace(/\s*\S*$/,"")+"…"}
+    const h=Math.max(minH,86+lines.length*38);
+    ctx.fillStyle=SOFT;rr(ctx,60,y,W-120,h,18);ctx.fill();ctx.fillStyle=GOLD;ctx.fillRect(60,y+18,8,h-36);
+    ctx.fillStyle=ACC;ctx.font="700 28px "+SERIFSAFE;ctx.fillText(title,92,y+46);
+    ctx.fillStyle=INK;ctx.font="400 27px "+SANS;lines.forEach((l,i)=>ctx.fillText(l,92,y+88+i*38));
+    y+=h+26;
+  };
+  const SERIFSAFE=SER;
+  box("Mi compromiso para esta semana",S.commit.trim()||"Aún no escribí mi compromiso.",3,120);
+  if(S.incl&&S.text.trim())box("Mi respuesta al caso de Lucía",S.text.trim(),8,120);
+  ctx.fillStyle=MUT;ctx.font="400 22px "+SANS;
+  ctx.fillText("Actividad formativa: no es una prueba psicológica ni un diagnóstico.",60,y+20);
+  return y+60;
+}
+async function buildCard(){
+  try{await Promise.all([document.fonts.load("700 40px Fraunces"),document.fonts.load("400 24px 'Nunito Sans'"),document.fonts.load("700 24px 'Nunito Sans'"),document.fonts.load("600 24px 'Nunito Sans'")])}catch(e){}
+  const W=1080,t=document.createElement("canvas");t.width=W;t.height=4000;
+  const H=paint(t.getContext("2d"),W,S.results);
+  const cv=document.createElement("canvas");cv.width=W;cv.height=Math.ceil(H);
+  paint(cv.getContext("2d"),W,S.results);
+  return cv;
+}
+
+draw();
+</script>
+</body>
+</html>
